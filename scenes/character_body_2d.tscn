@@ -154,7 +154,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -164,8 +164,8 @@ animations = [{
 "texture": SubResource("AtlasTexture_eewtm")
 }],
 "loop": true,
-"name": &"jumping",
-"speed": 5.0
+"name": &"jump",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -187,25 +187,29 @@ animations = [{
 "texture": SubResource("AtlasTexture_mamov")
 }],
 "loop": true,
-"name": &"walking",
+"name": &"walk",
 "speed": 9.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2brh"]
-size = Vector2(80, 152)
+size = Vector2(57, 105)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=446623067]
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2008556553]
-
-[node name="Idle1" type="AnimatedSprite2D" parent="Sprite2D" unique_id=970907317]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=970907317]
 texture_filter = 1
 position = Vector2(180.99998, 421.99997)
 scale = Vector2(5.28125, 5.7656255)
 sprite_frames = SubResource("SpriteFrames_42hdn")
+<<<<<<< HEAD
 animation = &"attack"
 frame_progress = 0.728727
+=======
+animation = &"idle"
+frame_progress = 0.8791787
+>>>>>>> cc7a2876cd66e1c65076b70cfa91b8e6ca729864
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1647036426]
-position = Vector2(175, 425)
+position = Vector2(174, 441)
+scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_g2brh")
