@@ -1,19 +1,72 @@
 [gd_scene format=3 uid="uid://g87hj1ydl6p0"]
 
 [ext_resource type="Texture2D" uid="uid://bg0l3e34wxptp" path="res://idle1.png" id="1_lj8jo"]
+[ext_resource type="Texture2D" uid="uid://bmnkcvxp42b38" path="res://idle2 (2).png" id="2_ws0vm"]
+[ext_resource type="Texture2D" uid="uid://dcqyxq7dx8yia" path="res://walking 1.png" id="3_rhr3r"]
+[ext_resource type="Texture2D" uid="uid://c1rkfv4si8lvr" path="res://walking 2.png" id="4_t53lx"]
+[ext_resource type="Texture2D" uid="uid://dok1m6dqe4gju" path="res://walking3 (2).png" id="5_yi2kj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cibgq"]
+atlas = ExtResource("1_lj8jo")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfdas"]
+atlas = ExtResource("2_ws0vm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8nwgm"]
+atlas = ExtResource("3_rhr3r")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pl6r"]
+atlas = ExtResource("4_t53lx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5gf8"]
+atlas = ExtResource("5_yi2kj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_42hdn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cibgq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfdas")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8nwgm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7pl6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5gf8")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2brh"]
 size = Vector2(80, 152)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=446623067]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1383559646]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2008556553]
 
-[node name="Idle1" type="Sprite2D" parent="." unique_id=1737695629]
+[node name="Idle1" type="AnimatedSprite2D" parent="Sprite2D" unique_id=970907317]
 texture_filter = 1
 position = Vector2(173.00002, 412.99997)
 scale = Vector2(5.28125, 5.7656255)
-texture = ExtResource("1_lj8jo")
+sprite_frames = SubResource("SpriteFrames_42hdn")
+frame_progress = 0.2532553
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1647036426]
 position = Vector2(173, 413)
