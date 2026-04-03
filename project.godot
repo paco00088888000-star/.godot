@@ -17,7 +17,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Penut Adventure"
 run/main_scene="uid://euo0pns8fj4l"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://cm1h2x7vpf3jo"
 
 [rendering]
 
