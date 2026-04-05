@@ -42,6 +42,14 @@
 [ext_resource type="Texture2D" uid="uid://cyeo2akrvenn5" path="res://e2-17.png" id="32_7mmlk"]
 [ext_resource type="Texture2D" uid="uid://p5mt6y27uvun" path="res://e2-18.png" id="33_5ynmj"]
 [ext_resource type="Texture2D" uid="uid://cbmsxnp4n4sga" path="res://e2-19.png" id="34_j4ba2"]
+[ext_resource type="Texture2D" uid="uid://di7gn6oc4qtvm" path="res://e2-20.png" id="35_u7bf1"]
+[ext_resource type="Texture2D" uid="uid://b8kfae4foxkgi" path="res://e2-21.png" id="36_mmnpi"]
+[ext_resource type="Texture2D" uid="uid://yopmollwve1y" path="res://e2-22.png" id="37_2atgf"]
+[ext_resource type="Texture2D" uid="uid://bikfplpon85g6" path="res://e2-23.png" id="38_1x471"]
+[ext_resource type="Texture2D" uid="uid://b4pdxo6rpc7kf" path="res://e2-24.png" id="39_q3p54"]
+[ext_resource type="Texture2D" uid="uid://ca0sb8ljburaw" path="res://e2-26 idk.png" id="40_86134"]
+[ext_resource type="Texture2D" uid="uid://bcrkbdirun7w6" path="res://e2-27.png" id="41_fd7s8"]
+[ext_resource type="Texture2D" uid="uid://bnvjq7xlt7ol3" path="res://e2-28.png" id="42_xnlan"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2brh"]
 size = Vector2(14, 25)
@@ -197,7 +205,55 @@ animations = [{
 "texture": ExtResource("34_j4ba2")
 }, {
 "duration": 1.0,
-"texture": ExtResource("34_j4ba2")
+"texture": ExtResource("16_ri7g2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ipx4o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_6ogfl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_mmnpi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_2atgf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_q3p54")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_fd7s8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_0ehsx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_y0ehx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_u7bf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_mmnpi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_2atgf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_1x471")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_q3p54")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_86134")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_fd7s8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_xnlan")
 }],
 "loop": true,
 "name": &"e2",
@@ -250,5 +306,5 @@ position = Vector2(209, 139)
 scale = Vector2(1, 1.03125)
 sprite_frames = SubResource("SpriteFrames_4vejd")
 animation = &"e2"
-frame = 2
-frame_progress = 0.39772916
+frame = 39
+frame_progress = 0.09778088
