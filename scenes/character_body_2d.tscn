@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cfc4tnwlfbs3v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2brh"]
+size = Vector2(14, 25)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1518571831]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=484157882]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_g2brh")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1703547839]
+texture_filter = 1
+position = Vector2(0, 0.5)
+scale = Vector2(1, 1.03125)
