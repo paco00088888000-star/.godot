@@ -87,7 +87,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("10_rsbhr")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 10.0
 }, {
@@ -130,7 +130,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("13_ef4gn")
 }],
-"loop": true,
+"loop": false,
 "name": &"e1",
 "speed": 5.0
 }, {
@@ -255,7 +255,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("42_xnlan")
 }],
-"loop": true,
+"loop": false,
 "name": &"e2",
 "speed": 5.0
 }, {
@@ -305,6 +305,4 @@ texture_filter = 1
 position = Vector2(209, 139)
 scale = Vector2(1, 1.03125)
 sprite_frames = SubResource("SpriteFrames_4vejd")
-animation = &"e2"
-frame = 39
-frame_progress = 0.09778088
+animation = &"attack"
