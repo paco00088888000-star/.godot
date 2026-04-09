@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://g87hj1ydl6p0"]
 
 [ext_resource type="Texture2D" uid="uid://bu0047es4actg" path="res://idle1.png" id="1_lj8jo"]
+[ext_resource type="Texture2D" uid="uid://da6k4m78mdwfg" path="res://attack.png" id="1_mbxdm"]
 [ext_resource type="Texture2D" uid="uid://co6vkqxsu8ci3" path="res://idle2 (2).png" id="2_ws0vm"]
 [ext_resource type="Texture2D" uid="uid://cusi1ms4hr4kl" path="res://jumping1.png" id="3_mfdas"]
 [ext_resource type="Texture2D" uid="uid://bcfe021isyuhl" path="res://walking 1.png" id="3_rhr3r"]
@@ -47,6 +48,14 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("1_mbxdm")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 3.5
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("12_130kv")
 }, {
 "duration": 1.0,
@@ -55,7 +64,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("14_a340w")
 }],
-"loop": true,
+"loop": false,
 "name": &"e1",
 "speed": 4.0
 }, {
@@ -144,7 +153,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("42_3m7o5")
 }],
-"loop": true,
+"loop": false,
 "name": &"e2",
 "speed": 10.0
 }, {
@@ -194,6 +203,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rk7dk"]
+size = Vector2(6, 3)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ij6vw"]
 size = Vector2(10, 19)
 
@@ -205,10 +217,13 @@ texture_repeat = 2
 texture_filter = 1
 texture_repeat = 2
 sprite_frames = SubResource("SpriteFrames_f50pn")
-animation = &"e2"
-frame_progress = 0.6080488
+animation = &"attack"
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite2D" unique_id=1072278751]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Area2D" unique_id=1938120101]
+position = Vector2(8, 8.5)
+shape = SubResource("RectangleShape2D_rk7dk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=662502888]
 position = Vector2(0, 4.5)
