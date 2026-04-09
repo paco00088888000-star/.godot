@@ -1,58 +1,105 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -600.0
+# ─────────────────────────────────────────
+#  PLAYER CONTROLLER — Godot 4.x
+#  Requires: AnimatedSprite2D node named "AnimatedSprite2D"
+#  Animations needed: "idle", "walk", "jump", "attack", "e1", "e2"
+#
+#  Controls:
+#    LMB      → attack
+#    button2  → e1   (map "button2" in Project > Input Map)
+#    button3  → e2   (map "button3" in Project > Input Map)
+# ─────────────────────────────────────────
 
-@onready var sprite = $AnimatedSprite2D
+# Movement
+@export var speed: float = 200.0
+@export var jump_force: float = -450.0
+@export var gravity: float = 1200.0
 
-var is_attacking = false
+# Node references
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+
+# Internal state
+var is_attacking: bool = false
+
+
+func _ready() -> void:
+	anim.animation_finished.connect(_on_animation_finished)
+
+
+func _on_animation_finished() -> void:
+	if anim.animation in ["attack", "e1", "e2"]:
+		is_attacking = false
+
+
+func _input(event: InputEvent) -> void:
+	if is_attacking:
+		return
+
+	# LMB → attack
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_start_attack("attack")
+
+	# Keyboard → e1 / e2
+	if event.is_action_pressed("button2"):
+		_start_attack("e1")
+	elif event.is_action_pressed("button3"):
+		_start_attack("e2")
+
+
+func _start_attack(anim_name: String) -> void:
+	is_attacking = true
+	anim.stop()
+	anim.play(anim_name)
+
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Napad - pokreće se samo ako već ne napadamo
-	if Input.is_action_just_pressed("attack") and not is_attacking:
-		perform_attack()
-
-	# Skok i kretanje su onemogućeni tijekom napada radi bolje kontrole
-	if not is_attacking:
-		if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-			velocity.y = JUMP_VELOCITY
-
-		var direction := Input.get_axis("ui_left", "ui_right")
-		if direction:
-			velocity.x = direction * SPEED
-			sprite.flip_h = direction < 0
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			
-		update_animations(direction)
-	else:
-		# Tijekom napada lik se polako zaustavlja
-		velocity.x = move_toward(velocity.x, 0, SPEED * 0.1)
-
+	_apply_gravity(delta)
+	_handle_movement()
+	_handle_jump()
 	move_and_slide()
+	_update_animation()
 
-func update_animations(direction):
+
+# ── Gravity ───────────────────────────────
+func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
-		sprite.play("jump")
-	elif direction != 0:
-		sprite.play("walk")
+		velocity.y += gravity * delta
+
+
+# ── Horizontal movement ───────────────────
+func _handle_movement() -> void:
+	var direction := Input.get_axis("ui_left", "ui_right")
+
+	if direction != 0:
+		velocity.x = direction * speed
+		anim.flip_h = direction < 0
 	else:
-		sprite.play("idle")
+		velocity.x = move_toward(velocity.x, 0, speed * 0.2)
 
-func perform_attack():
-	is_attacking = true
-	sprite.play("attack")
-	
-	# Povezujemo signal koji će se okinuti ČIM animacija završi
-	# Koristimo jednokratno povezivanje (CONNECT_ONE_SHOT) za sigurnost
-	if not sprite.animation_finished.is_connected(_on_attack_finished):
-		sprite.animation_finished.connect(_on_attack_finished, CONNECT_ONE_SHOT)
 
-func _on_attack_finished():
-	# Ova funkcija se pokreće samo kad animacija "stvarno" dođe do kraja
-	if sprite.animation == "attack":
-		is_attacking = false
-		sprite.stop() # Prisilno zaustavljanje
+# ── Jump ──────────────────────────────────
+func _handle_jump() -> void:
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+		velocity.y = jump_force
+
+
+# ── Animation state machine ───────────────
+func _update_animation() -> void:
+	if is_attacking:
+		return
+
+	if not is_on_floor():
+		_play("jump")
+		return
+
+	if abs(velocity.x) > 5.0:
+		_play("walk")
+	else:
+		_play("idle")
+
+
+func _play(anim_name: StringName) -> void:
+	if anim.animation != anim_name:
+		anim.play(anim_name)

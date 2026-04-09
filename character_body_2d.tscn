@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://ca0sb8ljburaw" path="res://e2-26 idk.png" id="40_p21mn"]
 [ext_resource type="Texture2D" uid="uid://bcrkbdirun7w6" path="res://e2-27.png" id="41_dne40"]
 [ext_resource type="Texture2D" uid="uid://bnvjq7xlt7ol3" path="res://e2-28.png" id="42_3m7o5"]
+[ext_resource type="Script" uid="uid://dmucojvsytxmu" path="res://camera_2d.gd" id="42_gh552"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f50pn"]
 animations = [{
@@ -55,8 +56,8 @@ animations = [{
 "texture": ExtResource("14_a340w")
 }],
 "loop": true,
-"name": &"emote1",
-"speed": 5.0
+"name": &"e1",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -144,7 +145,7 @@ animations = [{
 "texture": ExtResource("42_3m7o5")
 }],
 "loop": true,
-"name": &"emote2",
+"name": &"e2",
 "speed": 10.0
 }, {
 "frames": [{
@@ -197,17 +198,25 @@ animations = [{
 size = Vector2(10, 19)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1046742692]
+texture_filter = 1
+texture_repeat = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1125757835]
 texture_filter = 1
 texture_repeat = 2
-position = Vector2(125, 40)
 sprite_frames = SubResource("SpriteFrames_f50pn")
-animation = &"emote1"
-frame_progress = 0.4441494
+animation = &"e2"
+frame_progress = 0.6080488
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite2D" unique_id=1072278751]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=662502888]
-position = Vector2(125, 44.5)
+position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_ij6vw")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1004087432 node_paths=PackedStringArray("target")]
+zoom = Vector2(0.7, 0.7)
+limit_enabled = false
+position_smoothing_enabled = true
+script = ExtResource("42_gh552")
+target = NodePath("..")
