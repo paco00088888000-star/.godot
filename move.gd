@@ -1,105 +1,57 @@
 extends CharacterBody2D
 
-# ─────────────────────────────────────────
-#  PLAYER CONTROLLER — Godot 4.x
-#  Requires: AnimatedSprite2D node named "AnimatedSprite2D"
-#  Animations needed: "idle", "walk", "jump", "attack", "e1", "e2"
-#
-#  Controls:
-#    LMB      → attack
-#    button2  → e1   (map "button2" in Project > Input Map)
-#    button3  → e2   (map "button3" in Project > Input Map)
-# ─────────────────────────────────────────
+@export_group("Kretanje")
+@export var walk_speed: float = 200.0
+@export var run_multiplier: float = 3.0
+@export var acceleration: float = 0.2
 
-# Movement
-@export var speed: float = 200.0
-@export var jump_force: float = -450.0
-@export var gravity: float = 1200.0
+@export_group("Meat Boy Skok")
+@export var jump_force: float = -550.0      # Snaga punog skoka
+@export var jump_cut_value: float = 0.2     # Koliko brzine ostaje kad pustiš tipku (0.3 = 30%)
+@export var gravity: float = 1800.0         # Jaka gravitacija za "snappy" osjećaj
 
-# Node references
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
-# Internal state
-var is_attacking: bool = false
-
-
-func _ready() -> void:
-	anim.animation_finished.connect(_on_animation_finished)
-
-
-func _on_animation_finished() -> void:
-	if anim.animation in ["attack", "e1", "e2"]:
-		is_attacking = false
-
-
-func _input(event: InputEvent) -> void:
-	if is_attacking:
-		return
-
-	# LMB → attack
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			_start_attack("attack")
-
-	# Keyboard → e1 / e2
-	if event.is_action_pressed("button2"):
-		_start_attack("e1")
-	elif event.is_action_pressed("button3"):
-		_start_attack("e2")
-
-
-func _start_attack(anim_name: String) -> void:
-	is_attacking = true
-	anim.stop()
-	anim.play(anim_name)
-
-
 func _physics_process(delta: float) -> void:
-	_apply_gravity(delta)
-	_handle_movement()
-	_handle_jump()
-	move_and_slide()
-	_update_animation()
-
-
-# ── Gravity ───────────────────────────────
-func _apply_gravity(delta: float) -> void:
+	# 1. GRAVITACIJA
 	if not is_on_floor():
 		velocity.y += gravity * delta
+	
+	# 2. INPUT KRETANJE (Walk/Run)
+	var move_dir = Input.get_axis("ui_left", "ui_right")
+	var is_running = Input.is_action_pressed("ui_shift") # Trebaš "ui_shift" u Input Mapu
+	
+	var target_speed = move_dir * walk_speed * (run_multiplier if is_running else 1.0)
+	velocity.x = lerp(velocity.x, target_speed, acceleration)
+	
+	if move_dir != 0:
+		anim.flip_h = move_dir < 0
 
-
-# ── Horizontal movement ───────────────────
-func _handle_movement() -> void:
-	var direction := Input.get_axis("ui_left", "ui_right")
-
-	if direction != 0:
-		velocity.x = direction * speed
-		anim.flip_h = direction < 0
-	else:
-		velocity.x = move_toward(velocity.x, 0, speed * 0.2)
-
-
-# ── Jump ──────────────────────────────────
-func _handle_jump() -> void:
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	# 3. SKOK LOGIKA
+	# Početak skoka
+	if is_on_floor() and Input.is_action_just_pressed("ui_accept"):
 		velocity.y = jump_force
 
+	# JUMP CUT: Ako pustiš Space dok se još penješ, brzina se drastično smanjuje
+	if Input.is_action_just_released("ui_accept") and velocity.y < 0:
+		velocity.y *= jump_cut_value
 
-# ── Animation state machine ───────────────
-func _update_animation() -> void:
-	if is_attacking:
-		return
+	# 4. KRETANJE I ANIMACIJE
+	move_and_slide()
+	_handle_animations(move_dir, is_running)
 
+func _handle_animations(move_dir: float, is_running: bool) -> void:
 	if not is_on_floor():
 		_play("jump")
-		return
-
-	if abs(velocity.x) > 5.0:
-		_play("walk")
+	elif abs(velocity.x) > 10.0:
+		if is_running and anim.sprite_frames.has_animation("run"):
+			_play("run")
+		else:
+			_play("walk")
 	else:
 		_play("idle")
 
-
-func _play(anim_name: StringName) -> void:
-	if anim.animation != anim_name:
-		anim.play(anim_name)
+func _play(anim_name: String) -> void:
+	if anim.sprite_frames.has_animation(anim_name):
+		if anim.animation != anim_name:
+			anim.play(anim_name)
